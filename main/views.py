@@ -1,15 +1,20 @@
-from rest_framework import viewsets
-from .models import Service, Step, Pricing, FAQ, Contact, Tokenomics,User
-from .serializers import ServiceSerializer, StepSerializer, PricingSerializer, FAQSerializer, ContactSerializer, TokenomicsSerializer
-from rest_framework import generics, permissions
+from rest_framework import viewsets, generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
+
+from .models import Service, Step, Pricing, FAQ, Contact, Tokenomics, User
+from .serializers import (
+    ServiceSerializer, StepSerializer, PricingSerializer, FAQSerializer,
+    ContactSerializer, TokenomicsSerializer,
+    RegisterSerializer, LoginSerializer, UserSerializer
+)
+
 
 # Register
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
+
 
 # Login
 class LoginView(APIView):
@@ -23,6 +28,7 @@ class LoginView(APIView):
             "access": str(refresh.access_token),
         })
 
+
 # Profile ko‘rish/update
 class ProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
@@ -30,6 +36,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
 
 # Delete User
 class DeleteUserView(generics.DestroyAPIView):
@@ -40,7 +47,7 @@ class DeleteUserView(generics.DestroyAPIView):
         return self.request.user
 
 
-
+# CRUD ViewSets
 class ServiceViewSet(viewsets.ModelViewSet):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer

@@ -1,6 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ServiceViewSet,RegisterView, LoginView, ProfileView, DeleteUserView, StepViewSet, PricingViewSet, FAQViewSet, ContactViewSet, TokenomicsViewSet
+from .views import (
+    ServiceViewSet, RegisterView, LoginView, ProfileView,
+    DeleteUserView, StepViewSet, PricingViewSet, FAQViewSet,
+    ContactViewSet, TokenomicsViewSet
+)
 
 router = DefaultRouter()
 router.register(r'services', ServiceViewSet)

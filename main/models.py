@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
+
 # Custom User Manager
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -9,13 +10,16 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
+        user.is_active = True
         user.save(using=self._db)
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)
         return self.create_user(email, password, **extra_fields)
+
 
 # Custom User Model
 class User(AbstractBaseUser, PermissionsMixin):
@@ -63,7 +67,7 @@ class Step(models.Model):
 class Pricing(models.Model):
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    features = models.TextField()  # JSON yoki string qilib saqlash mumkin
+    features = models.TextField()
     is_popular = models.BooleanField(default=False)
 
     def __str__(self):
@@ -79,7 +83,7 @@ class FAQ(models.Model):
         return self.question
 
 
-# Contact forma (saytdan va botdan kelganlar)
+# Contact forma
 class Contact(models.Model):
     name = models.CharField(max_length=150)
     email = models.EmailField(blank=True, null=True)
@@ -88,9 +92,11 @@ class Contact(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.name} ({self.telegram})"
+        tg = self.telegram if self.telegram else "No TG"
+        return f"{self.name} ({tg})"
 
 
+# Tokenomics
 class Tokenomics(models.Model):
     title = models.CharField(max_length=200)
     percentage = models.FloatField(help_text="Ajratilgan foiz (%)")

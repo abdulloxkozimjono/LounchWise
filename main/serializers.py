@@ -1,7 +1,7 @@
-from .models import Service, Step, Pricing, FAQ, Contact, Tokenomics
 from rest_framework import serializers
-from .models import User
 from django.contrib.auth import authenticate
+from .models import User, Service, Step, Pricing, FAQ, Contact, Tokenomics
+
 
 # Register
 class RegisterSerializer(serializers.ModelSerializer):
@@ -19,6 +19,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
+
 # Login
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -30,6 +31,7 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Email yoki parol noto‘g‘ri")
         return user
 
+
 # Profile
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,35 +39,34 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["id", "email", "full_name", "bio", "avatar"]
 
 
-
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
-        fields = '__all__'
+        fields = "__all__"
 
 
 class StepSerializer(serializers.ModelSerializer):
     class Meta:
         model = Step
-        fields = '__all__'
+        fields = "__all__"
 
 
 class PricingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pricing
-        fields = '__all__'
+        fields = "__all__"
 
 
 class FAQSerializer(serializers.ModelSerializer):
     class Meta:
         model = FAQ
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
-        fields = '__all__'
+        fields = "__all__"
 
 
 class TokenomicsSerializer(serializers.ModelSerializer):
